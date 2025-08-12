@@ -10,8 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Button } from "../ui/button";
-import { Check, ChevronDown, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function SubredditCombobox({ subreddits }) {
