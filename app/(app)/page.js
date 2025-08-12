@@ -9,7 +9,7 @@ export default function Home() {
             <div>
               <h1 className="text-2xl font-bold">Home</h1>
               <p className="text-sm text-gray-600">
-                Recently Post from Communities{" "}
+                Recently Post from Communities see all{" "}
               </p>
             </div>
           </div>
