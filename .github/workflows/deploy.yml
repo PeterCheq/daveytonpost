@@ -16,12 +16,13 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.VPS_HOST }} # Example: 37.59.191.158
+          username: ${{ secrets.VPS_USER }} # Example: root
+          key: ${{ secrets.VPS_SSH_KEY }} # Your private SSH key
+          port: ${{ secrets.VPS_PORT }} # SSH port (22 by default)
           script: |
             cd /var/www/nextjs/daveytonpost
             git pull origin main
             npm install
             npm run build
-            pm2 restart next js
+            pm2 restart nextjs
