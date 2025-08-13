@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main # Trigger deployment on pushes to main
+      - main
 
 jobs:
   deploy:
@@ -13,16 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy via SSH
+      - name: Print VPS info (for debug)
+        run: echo "VPS_HOST is ${{ secrets.VPS_HOST }} and VPS_PORT is ${{ secrets.VPS_PORT }}"
+
+      - name: Test SSH connection
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }} # Example: 37.59.191.158
-          username: ${{ secrets.VPS_USER }} # Example: root
-          key: ${{ secrets.VPS_SSH_KEY }} # Your private SSH key
-          port: ${{ secrets.VPS_PORT }} # SSH port (22 by default)
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
           script: |
-            cd /var/www/nextjs/daveytonpost
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart nextjs
+            whoami
