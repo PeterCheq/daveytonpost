@@ -6,7 +6,7 @@ async function SearchPage({ searchParams }) {
   const { query } = await searchParams;
   console.log("title in question >>>>", query);
   const subreddits = await searchSubreddits(query);
-  console.log(">>><", subreddits);
+  console.log(">>><<", subreddits);
   return (
     <>
       <section className="bg-white border-b">
