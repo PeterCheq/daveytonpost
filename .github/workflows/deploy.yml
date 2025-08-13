@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Print VPS info (for debug)
-        run: echo "VPS_HOST is ${{ secrets.VPS_HOST }} and VPS_PORT is ${{ secrets.VPS_PORT }} and your VPS_SSH_KEY is ${{secrets.VPS_SSH_KEY}}"
+        run: echo "VPS_HOST is ${{ secrets.VPS_HOST }} and VPS_PORT is ${{ secrets.VPS_PORT }}"
 
       - name: Test SSH connection
         uses: appleboy/ssh-action@v1.0.3
@@ -23,8 +23,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          script: |
-            whoami
+          script: echo "SSH connection successful!"
 
       - name: Build Next.js app
         run: npm run build
