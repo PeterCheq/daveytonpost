@@ -9,7 +9,7 @@ export default function Home() {
             <div>
               <h1 className="text-2xl font-bold">Home</h1>
               <p className="text-sm text-gray-600">
-                See all post from communities{" "}
+                See all posts from communities{" "}
               </p>
             </div>
           </div>
