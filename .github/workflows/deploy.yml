@@ -2,39 +2,16 @@ name: Deploy to VPS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Print VPS info (for debug)
-        run: echo "VPS_HOST is ${{ secrets.VPS_HOST }} and VPS_PORT is ${{ secrets.VPS_PORT }}"
-
-      - name: Check if SSH key is present
-        env:
-          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-        run: |
-          if [ -z "$SSH_KEY" ]; then
-            echo "SSH key is empty!"
-            exit 1
-          else
-            echo "SSH key is present."
-          fi
-
-      - name: Test SSH connection
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: echo "SSH connection successful!"
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build Next.js app
         run: npm run build
@@ -43,3 +20,17 @@ jobs:
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
           NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
           NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            echo "SSH connection successful!"
+            cd /var/www/nextjs/daveytonpost
+            git pull
+            docker compose down
+            docker compose up -d --build
