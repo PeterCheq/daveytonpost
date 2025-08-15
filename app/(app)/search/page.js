@@ -4,7 +4,7 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 async function SearchPage({ searchParams }) {
   const { query } = await searchParams;
-  console.log("title in question is", query);
+  console.log("title in question", query);
   const subreddits = await searchSubreddits(query);
   return (
     <>
